@@ -22,9 +22,9 @@ for i in murphy_date["comps"]:
     data = {}
     data["id"] = "murphysec-" + i["vulns"][0]["cve_id"]
     data["shortDescription"] = {}
-    data["shortDescription"]["text"] = i["vulns"][0]["level"] + i["comp_name"] + i["comp_version"]
+    data["shortDescription"]["text"] = i["vulns"][0]["level"]+ "  severity - " + i["comp_name"] + '@' + i["comp_version"]
     data["fullDescription"] = {}
-    data["fullDescription"]["text"] = i["vulns"][0]["level"] + i["comp_name"] + i["comp_version"]
+    data["fullDescription"]["text"] = i["vulns"][0]["level"] + "  severity - " + i["comp_name"] + '@' + i["comp_version"]
     data["help"] = {}
     data["help"]["text"] = ""
 
