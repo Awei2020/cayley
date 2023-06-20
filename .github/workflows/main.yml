@@ -1,20 +1,23 @@
-name: Example workflow for Golang using Snyk
-on: push
+#github actions 实现代码自动化扫描
+name: "Murphysecurity"
+on:
+  push:
+    branches:
+      - main
 jobs:
-  security:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/golang@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: fcb929fe-35b1-4f24-a40f-707ab8a1a3d3
-        with:
-          args: --sarif-file-output=snyk.sarif
-      - name: cat
-        run: cat snyk.sarif
-      - name: Upload result to GitHub Code Scanning
+      - name: checkout_actions
+        uses: actions/checkout@v3
+      - name: Install cli
+        run: |
+          wget -q https://s.murphysec.com/release/install.sh -O - | /bin/bash
+      - name: code scan
+        run: murphysec  scan . --token 98e5c144e91ef72aeebde4ac2a20e963 --json >a.json
+      - name: format data
+        run: python3 main.py
+      - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: snyk.sarif
+          sarif_file: a.sarif
