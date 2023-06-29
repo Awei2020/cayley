@@ -13,7 +13,9 @@ jobs:
         run: |
           wget -q https://s.murphysec.com/release/install.sh -O - | /bin/bash
       - name: code scan
-        run: murphysec  scan . --token ${{ secrets.MURPHYSEC_TOKEN }} --json >scan_results.json
+        run: |
+          murphysec  scan . --token ${{ secrets.MURPHYSEC_TOKEN }} --json >scan_results.json
+          cat scan_results.json
       - name: format data
         run: | 
           wget https://beijing-online-public-1257309290.cos.ap-beijing.myqcloud.com/format.py
@@ -22,6 +24,7 @@ jobs:
         run: |
           if [ -f "results.sarif" ]; then
             echo "file_exists=true" >> $GITHUB_ENV
+            cat results.sarif
           else
             echo "file_exists=false" >> $GITHUB_ENV
           fi
